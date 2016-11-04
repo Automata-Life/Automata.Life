@@ -5,8 +5,7 @@ python:
 install: "pip install -r requirements.txt"
 
 before_script:
-    - rm automata_life_server/settings.py
-    - mv .travis_settings/settings.py automata_life_server/settings.py
+    - sed -iz 's/DATABASES[^}]*./DATABASES = {\n    'default': {\n        'ENGINE': 'django.db.backends.sqlite3',\n        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),\n    }/g' automata_life_server/settings.py 
 # command to run tests
 script:
     - python manage.py test
