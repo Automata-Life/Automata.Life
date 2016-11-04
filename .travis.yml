@@ -9,5 +9,5 @@ before_script:
     - mv .travis_settings/settings.py automata_life_server/settings.py
 # command to run tests
 script:
-    - ./manage.py test
-    - ./manage.py harvest
+    - python manage.py test
+    - python manage.py harvest

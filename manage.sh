@@ -133,7 +133,7 @@ if check_deps; then
     elif [[ $1 == clean ]]; then clean;
     elif [[ $1 == purge ]]; then purge;
     elif [[ $1 == bash ]]; then bash $2;
-    elif [[ $1 == command ]]; then command $2 $3;
+    elif [[ $1 == command ]]; then command $2 "$3";
     elif [[ $1 == help ]]; then usage;
     else { echo ""; echo "Error: no valid argument"; echo ""; usage; exit 1; }
     fi
