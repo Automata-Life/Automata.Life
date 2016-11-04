@@ -6,7 +6,7 @@ install: "pip install -r requirements.txt"
 
 before_script:
     - rm automata_life_server/settings.py
-    - mv .travis_settings/settings.py automata_life_settings/settings.py
+    - mv .travis_settings/settings.py automata_life_server/settings.py
 # command to run tests
 script:
     - ./manage.py test
