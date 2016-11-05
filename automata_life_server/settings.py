@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'automata_life_server',
+    'automata_life',
     'lettuce.django',
 ]
 
