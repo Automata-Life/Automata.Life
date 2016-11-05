@@ -18,7 +18,6 @@ function usage {
     echo " test:                   Run unit tests"
     echo " harvest:                Run acceptance tests"
     echo ""
-    echo ""
     echo " ps:                     Show all Docker containers"
     echo " images:                 Show all Docker images"
     echo " clean:                  Stop and remove all containers"
@@ -122,19 +121,19 @@ function bash {
 }
 
 if check_deps; then
-    if [[ $1 == build ]]; then build;
-    elif [[ $1 == run ]]; then run;
-    elif [[ $1 == stop ]]; then stop;
-    elif [[ $1 == all ]]; then all;
-    elif [[ $1 == test ]]; then test;
-    elif [[ $1 == harvest ]]; then harvest;
-    elif [[ $1 == ps ]]; then ps;
-    elif [[ $1 == images ]]; then images;
-    elif [[ $1 == clean ]]; then clean;
-    elif [[ $1 == purge ]]; then purge;
-    elif [[ $1 == bash ]]; then bash $2;
-    elif [[ $1 == command ]]; then command $2 "$3";
-    elif [[ $1 == help ]]; then usage;
-    else { echo ""; echo "Error: no valid argument"; echo ""; usage; exit 1; }
+    if [[ $1 == build ]]     ; then build;
+    elif [[ $1 == run ]]     ; then run;
+    elif [[ $1 == stop ]]    ; then stop;
+    elif [[ $1 == all ]]     ; then all;
+    elif [[ $1 == test ]]    ; then test;
+    elif [[ $1 == harvest ]] ; then harvest;
+    elif [[ $1 == ps ]]      ; then ps;
+    elif [[ $1 == images ]]  ; then images;
+    elif [[ $1 == clean ]]   ; then clean;
+    elif [[ $1 == purge ]]   ; then purge;
+    elif [[ $1 == bash ]]    ; then bash $2;
+    elif [[ $1 == command ]] ; then command $2 "$3";
+    elif [[ $1 == help ]]    ; then usage;
+    else { echo ""           ; echo "Error: no valid argument"; echo ""; usage; exit 1; }
     fi
 fi
