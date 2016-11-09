@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 {% load static %}
 <head>
-    <title>Hex</title>
-    <script src={% static 'automata_life/hexagon.js' %}></script>
+    <title>Automata.Life</title>
+    <script src={% static "" %}{{HEX_LIB}}></script>
 </head>
 <body>
-    <canvas id="HexCanvas" width="1920" height="1080"></canvas>
-    <script src={% static 'automata_life/grid.js' %}></script>
+    <canvas id="HexCanvas" width={{GRID_WIDTH}} height={{GRID_HEIGHT}}></canvas>
+    <script> var hex_radius = {{HEX_RADIUS}} </script>
+    <script src={% static "" %}{{HEX_GRID}}></script>
 </body>
