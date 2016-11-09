@@ -38,7 +38,7 @@ function check_deps {
 }
 
 function build {
-    echo "Starting docker-compose build..."
+    echo "> Starting docker-compose build..."
     docker-compose build
     echo "> Done."
 }
