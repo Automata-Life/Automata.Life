@@ -13,7 +13,6 @@ RUN pip install -r requirements.txt
 
 RUN curl -sL https://deb.nodesource.com/setup_7.x | bash -
 RUN apt-get install -y nodejs
-RUN npm install npm -g
 
 ADD . /${ROOT_DIR}/
 
