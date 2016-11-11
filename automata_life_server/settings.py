@@ -36,6 +36,11 @@ WEBPACK_LOADER = {
 }
 # Application definition
 
+LETTUCE_APPS = [
+    'automata_life_server',
+    'automata_life',
+]
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -45,8 +50,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'automata_life_server',
     'automata_life',
-    'lettuce.django',
     'webpack_loader',
+    'lettuce.django',
 ]
 
 MIDDLEWARE_CLASSES = [

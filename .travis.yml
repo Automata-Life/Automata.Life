@@ -1,14 +1,15 @@
 language: python
-sudo: required
-dist: trusty
+sudo:     required
+
+services:
+    - docker
+
 python:
     - "2.7"
-# command to install dependencies
-install: "pip install -r requirements.txt"
 
-before_script:
-    - ./.travis_settings/setup.sh
-# command to run tests
+before_install:
+    - ./manage.sh build
+
 script:
-    - python manage.py test
-    - python manage.py harvest
+    - ./manage.sh test
+    - ./manage.sh harvest
