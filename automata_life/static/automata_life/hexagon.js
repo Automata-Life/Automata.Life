@@ -12,14 +12,14 @@ function HexagonGrid(canvasId, radius) {
 
     this.canvasOriginX = 0;
     this.canvasOriginY = 0;
-    
+
     this.canvas.addEventListener("mousedown", this.clickEvent.bind(this), false);
 };
 
 HexagonGrid.prototype.drawHexGrid = function (rows, cols, originX, originY, isDebug) {
     this.canvasOriginX = originX;
     this.canvasOriginY = originY;
-    
+
     var currentHexX;
     var currentHexY;
     var debugText = "";
@@ -81,14 +81,14 @@ HexagonGrid.prototype.drawHex = function(x0, y0, fillColor, debugText) {
 
 //Recusivly step up to the body to calculate canvas offset.
 HexagonGrid.prototype.getRelativeCanvasOffset = function() {
-	var x = 0, y = 0;
-	var layoutElement = this.canvas;
+    var x = 0, y = 0;
+    var layoutElement = this.canvas;
     if (layoutElement.offsetParent) {
         do {
             x += layoutElement.offsetLeft;
             y += layoutElement.offsetTop;
         } while (layoutElement = layoutElement.offsetParent);
-        
+
         return { x: x, y: y };
     }
 }
@@ -97,7 +97,7 @@ HexagonGrid.prototype.getRelativeCanvasOffset = function() {
 //Left edge of grid has a test to acuratly determin correct hex
 HexagonGrid.prototype.getSelectedTile = function(mouseX, mouseY) {
 
-	var offSet = this.getRelativeCanvasOffset();
+    var offSet = this.getRelativeCanvasOffset();
 
     mouseX -= offSet.x;
     mouseY -= offSet.y;
@@ -109,11 +109,11 @@ HexagonGrid.prototype.getSelectedTile = function(mouseX, mouseY) {
             : Math.floor(((mouseY + (this.height * 0.5)) / this.height)) - 1);
 
 
-    //Test if on left side of frame            
+    //Test if on left side of frame
     if (mouseX > (column * this.side) && mouseX < (column * this.side) + this.width - this.side) {
 
 
-        //Now test which of the two triangles we are in 
+        //Now test which of the two triangles we are in
         //Top left triangle points
         var p1 = new Object();
         p1.x = column * this.side;
@@ -194,5 +194,5 @@ HexagonGrid.prototype.clickEvent = function (e) {
         var drawx = (tile.column * this.side) + this.canvasOriginX;
 
         this.drawHex(drawx, drawy - 6, "rgba(110,110,70,0.3)", "");
-    } 
+    }
 };

@@ -1,3 +1,4 @@
+{% load render_bundle from webpack_loader %}
 <!DOCTYPE html>
 {% load static %}
 <head>
@@ -8,4 +9,6 @@
     <canvas id="HexCanvas" width={{GRID_WIDTH}} height={{GRID_HEIGHT}}></canvas>
     <script> var hex_radius = {{HEX_RADIUS}} </script>
     <script src={% static "" %}{{HEX_GRID}}></script>
+    <div id="container"></div>
+    {% render_bundle 'main' %}
 </body>

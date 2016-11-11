@@ -20,3 +20,7 @@ def game(request):
                'GRID_NAME':   data["grid"]["name"]}
     template = loader.get_template("game.html")
     return HttpResponse(template.render(context))
+
+def react_test(request):
+    template = loader.get_template("react_test.html")
+    return HttpResponse(template.render())
