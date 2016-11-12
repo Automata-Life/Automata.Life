@@ -18,6 +18,8 @@ function usage {
     echo " test:                   Run unit tests"
     echo " harvest:                Run acceptance tests"
     echo ""
+    echo " webpack:                Runs webpack"
+    echo ""
     echo " ps:                     Show all Docker containers"
     echo " images:                 Show all Docker images"
     echo " clean:                  Stop and remove all containers"
@@ -77,6 +79,12 @@ function harvest {
     echo "> Done."
 }
 
+function webpack {
+    echo "> Running webpack..."
+    docker-compose run web ./node_modules/.bin/webpack --config webpack.config.js
+    echo "> Done."
+}
+
 function ps {
     echo "> List of all Docker containers:"
     docker ps -a
@@ -127,6 +135,7 @@ if check_deps; then
     elif [[ $1 == all ]]     ; then all;
     elif [[ $1 == test ]]    ; then test;
     elif [[ $1 == harvest ]] ; then harvest;
+    elif [[ $1 == webpack ]] ; then webpack;
     elif [[ $1 == ps ]]      ; then ps;
     elif [[ $1 == images ]]  ; then images;
     elif [[ $1 == clean ]]   ; then clean;
