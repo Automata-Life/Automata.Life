@@ -3,6 +3,20 @@
 function HexagonGrid(canvasId, radius) {
     this.radius = radius;
 
+    this.grid = [];
+    this.initialized = false;
+
+    this.timestep = 2500;
+    this.step = 0;
+
+    this.dead_color  = "#999999"
+    this.alive_color = "#fa0000"
+
+    this.survival_rules = [false,false,false,true,false,true,false];
+    this.birth_rules = [false,false,true,false,false,false,false];
+
+    this.time = performance.now();
+
     this.height = Math.sqrt(3) * radius;
     this.width = 2 * radius;
     this.side = (3 / 2) * radius;
@@ -14,11 +28,27 @@ function HexagonGrid(canvasId, radius) {
     this.canvasOriginY = 0;
 
     this.canvas.addEventListener("mousedown", this.clickEvent.bind(this), false);
+
 };
 
 HexagonGrid.prototype.drawHexGrid = function (rows, cols, originX, originY, isDebug) {
+    if(!this.initialized){
+        for (var col = 0; col < cols; col++) {
+            var column = [];
+            for (var row = 0; row < rows; row++) {
+                column.push(0);
+            }
+            this.grid.push(column);
+        }
+        console.log(this.grid);
+        this.initialized = true;
+    }
+
     this.canvasOriginX = originX;
     this.canvasOriginY = originY;
+
+    this.rows = rows;
+    this.cols = cols;
 
     var currentHexX;
     var currentHexY;
@@ -40,8 +70,12 @@ HexagonGrid.prototype.drawHexGrid = function (rows, cols, originX, originY, isDe
             if (isDebug) {
                 debugText = col + "," + row;
             }
+            var color = this.alive_color;
+            if(this.grid[col][row] == 0){
+                color = this.dead_color;
+            }
+            this.drawHex(currentHexX, currentHexY, color, debugText);
 
-            this.drawHex(currentHexX, currentHexY, "#ddd", debugText);
         }
         offsetColumn = !offsetColumn;
     }
@@ -189,10 +223,78 @@ HexagonGrid.prototype.clickEvent = function (e) {
     var localY = mouseY - this.canvasOriginY;
 
     var tile = this.getSelectedTile(localX, localY);
-    if (tile.column >= 0 && tile.row >= 0) {
-        var drawy = tile.column % 2 == 0 ? (tile.row * this.height) + this.canvasOriginY + 6 : (tile.row * this.height) + this.canvasOriginY + 6 + (this.height / 2);
-        var drawx = (tile.column * this.side) + this.canvasOriginX;
-
-        this.drawHex(drawx, drawy - 6, "rgba(110,110,70,0.3)", "");
+    if (tile.column >= 0 && tile.column < this.cols && tile.row >= 0 && tile.row < this.rows) {
+        var neighbors = this.get_neighbors(tile.column, tile.row);
+        this.grid[tile.column][tile.row] = 1 - this.grid[tile.column][tile.row];
     }
+};
+
+HexagonGrid.prototype.update = function() {
+    var time = this.time; //Real time
+    var elapsed = performance.now() - time;
+    this.time = performance.now();
+
+    this.step += elapsed;
+
+    while (this.step >= this.timestep) {
+        this.step -= this.timestep;
+        console.log("STEPPING !");
+
+        var next_grid = []
+        for(var i = 0; i < this.cols; i++){
+            next_grid[i] = this.grid[i].slice();
+        }
+
+        for (var col = 0; col < this.cols; col++) {
+            for (var row = 0; row < this.rows; row++) {
+
+                var neighbors = this.get_neighbors(col, row);
+                var alive = 0;
+                for (var i = 0; i < neighbors.length; i++) {
+                    var neighbor = neighbors[i];
+                    if(this.grid[neighbor[0]][neighbor[1]] == 1){
+                        alive++;
+                    }
+                }
+
+                if(this.grid[col][row] == 1){
+                    //apply survival rules
+                    if(! this.survival_rules[alive]){
+                        next_grid[col][row] = 0;
+                    }
+                }
+                else{
+                    // apply birth rules
+                    if(this.birth_rules[alive]){
+                        next_grid[col][row] = 1;
+                    }
+                }
+
+            }
+        }
+        this.grid = next_grid;
+    }
+};
+
+HexagonGrid.prototype.get_neighbors = function(col, row){
+    var directions = [
+       [ [+1,  0], [+1, -1], [ 0, -1],
+         [-1, -1], [-1,  0], [ 0, +1] ],
+       [ [+1, +1], [+1,  0], [ 0, -1],
+         [-1,  0], [-1, +1], [ 0, +1] ]
+    ];
+
+    console.log("oi")
+    var parity = col & 1
+    var neighbors = [];
+
+    for (var i = 0; i < 6; i++) {
+        var target_col = col + directions[parity][i][0];
+        var target_row = row + directions[parity][i][1];
+        if (target_row >= 0 && target_row < this.rows &&
+                target_col >= 0 && target_col < this.cols){
+            neighbors.push([target_col,target_row]);
+        }
+    }
+    return neighbors;
 };
