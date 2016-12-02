@@ -6,9 +6,10 @@
     <script src={% static "" %}{{HEX_LIB}}></script>
 </head>
 <body>
-    <div id="container"></div>
-    {% render_bundle 'main' %}
+    <div id="menu"></div>
     <canvas id="HexCanvas" width={{GRID_WIDTH}} height={{GRID_HEIGHT}}></canvas>
     <script> var hex_radius = {{HEX_RADIUS}} </script>
     <script src={% static "" %}{{HEX_GRID}}></script>
+    <div id="toolbar"></div>
+    {% render_bundle 'main' %}
 </body>

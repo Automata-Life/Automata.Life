@@ -229,6 +229,23 @@ HexagonGrid.prototype.clickEvent = function (e) {
     }
 };
 
+
+HexagonGrid.prototype.clear = function() {
+    for (var col = 0; col < this.cols; col++) {
+        for (var row = 0; row < this.rows; row++) {
+            this.grid[col][row] = 0;
+        }
+    }
+};
+
+HexagonGrid.prototype.randomize = function() {
+    for (var col = 0; col < this.cols; col++) {
+        for (var row = 0; row < this.rows; row++) {
+            this.grid[col][row] = Math.floor(Math.random() * 2);
+        }
+    }
+};
+
 HexagonGrid.prototype.update = function() {
     var time = this.time; //Real time
     var elapsed = performance.now() - time;
@@ -238,7 +255,6 @@ HexagonGrid.prototype.update = function() {
 
     while (this.step >= this.timestep) {
         this.step -= this.timestep;
-        console.log("STEPPING !");
 
         var next_grid = []
         for(var i = 0; i < this.cols; i++){
@@ -284,13 +300,13 @@ HexagonGrid.prototype.get_neighbors = function(col, row){
          [-1,  0], [-1, +1], [ 0, +1] ]
     ];
 
-    console.log("oi")
     var parity = col & 1
     var neighbors = [];
 
     for (var i = 0; i < 6; i++) {
         var target_col = col + directions[parity][i][0];
         var target_row = row + directions[parity][i][1];
+
         if (target_row >= 0 && target_row < this.rows &&
                 target_col >= 0 && target_col < this.cols){
             neighbors.push([target_col,target_row]);
